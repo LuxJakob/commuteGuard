@@ -1,0 +1,37 @@
+name: Guarding the Commute
+
+on:
+  schedule:
+    - cron: '30 5 * * 1-5'
+    - cron: '10 16 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  guarding_the_commute:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Decrypt CSV file
+      id: decrypt_csv
+      env:
+        CSV_DECRYPT_PASSWORD: ${{ secrets.DECODE }}
+        API_TOKEN_QOD: ${{ secrets.API_TOKEN_QOD }}
+        API_TOKEN_TENOR: ${{ secrets.API_TOKEN_TENOR }}
+        MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+        MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+      run: |
+        export PYTHONPATH=$PYTHONPATH:$(pwd)/src
+        python3 src/send_email.py
