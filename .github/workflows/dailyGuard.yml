@@ -34,4 +34,4 @@ jobs:
         MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
       run: |
         export PYTHONPATH=$PYTHONPATH:$(pwd)/src
-        python3 src/send_email.py
+        python3 src/main.py
