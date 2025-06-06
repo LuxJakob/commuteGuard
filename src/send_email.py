@@ -57,7 +57,6 @@ def create_message_body_morning() -> str:
 def create_message_body_evening() -> str:
     message_body = ""
 
-    message_body += fetch_weather()
     message_body += fetch_traffic('start', 'destination')
     return message_body
 
@@ -71,6 +70,36 @@ def body_default(message_body: str) -> str:
     return message_body
 
 def fetch_weather() -> str:
+    # fetch data from api
+    api_token_weather = os.environ.get('API_TOKEN_WEATHER')
+
+    base_url = 'https://api.weatherapi.com/v1/forecast.json'
+    stuttgart_coordinates='q=48.78275%2C9.182583'
+    scope='days=1'
+
+    response = requests.get(base_url+'?'+stuttgart_coordinates+'&'+scope+'&key='+api_token_weather)
+
+    # parse response
+    hourly_data = []
+
+    forecast_day = response['forecast']['forecastday'][0]
+    hours = forecast_day['hour']
+
+    for hour in hours:
+        time_str = hour['time']
+        hour_num = int(time_str.split(' ')[1].split(':')[0])
+
+        if 7 <= hour_num <= 20:
+            hourly_data.append({
+                'time': time_str,
+                'temp_c': hour['temp_c'],
+                'feelslike_c': hour['feelslike_c'],
+                'will_it_rain': hour['will_it_rain'],
+                'chance_of_rain': hour['chance_of_rain'],
+                'precip_mm': hour['precip_mm'],
+                'condition': hour['condition']['text']
+            })
+
     return 'weather'
 
 
