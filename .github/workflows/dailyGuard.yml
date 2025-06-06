@@ -29,7 +29,7 @@ jobs:
     - name: Guarding the Commute
       id: daily_guard
       env:
-        API_TOKEN_TENOR: ${{ secrets.API_TOKEN_WEATHER }}
+        API_TOKEN_WEATHER: ${{ secrets.API_TOKEN_WEATHER }}
         MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
         MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
       run: |
