@@ -80,7 +80,9 @@ def fetch_weather() -> str:
     stuttgart_coordinates = 'q=48.78275%2C9.182583'
     scope = 'days=1'
 
-    response = requests.get(base_url + '?' + stuttgart_coordinates + '&' + scope + '&key=' + api_token_weather)
+    response = requests.get(
+        base_url + '?' + stuttgart_coordinates + '&' + scope + '&key=' + api_token_weather
+    )
 
     if response.status_code == 200:
         data = response.json()
@@ -151,7 +153,7 @@ def parse_json_weather(hourly_data: List) -> str:
     return html_table
 
 
-def link_back() -> str:
+def link_back_weather() -> str:
     return """
     <a href="https://www.weatherapi.com/" title="Free Weather API">
     <img src='//cdn.weatherapi.com/v4/images/weatherapi_logo.png' alt="Weather data by WeatherAPI.com" border="0">
@@ -160,4 +162,4 @@ def link_back() -> str:
 
 
 def fetch_traffic(start: str, destination: str) -> str:
-    return 'traffic'
+    return start + destination

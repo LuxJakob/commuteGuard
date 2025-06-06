@@ -2,7 +2,9 @@ name: Guarding the Commute
 
 on:
   schedule:
+    # 05:30 GMT+2 (03:30 UTC)
     - cron: '30 5 * * 1-5'
+    # 16:10 GMT+2 (14:10 UTC)
     - cron: '10 16 * * 1-5'
   workflow_dispatch:
 
@@ -24,12 +26,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Decrypt CSV file
-      id: decrypt_csv
+    - name: Guarding the Commute
+      id: daily_guard
       env:
-        CSV_DECRYPT_PASSWORD: ${{ secrets.DECODE }}
-        API_TOKEN_QOD: ${{ secrets.API_TOKEN_QOD }}
-        API_TOKEN_TENOR: ${{ secrets.API_TOKEN_TENOR }}
+        API_TOKEN_TENOR: ${{ secrets.API_TOKEN_WEATHER }}
         MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
         MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
       run: |
