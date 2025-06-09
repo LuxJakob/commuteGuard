@@ -31,32 +31,32 @@ def fetch_weather() -> str:
         hour_num = int(time_str.split(' ')[1].split(':')[0])
 
         if 7 <= hour_num <= 20:
+
             hourly_data.append({
                 'time': time_str,
                 'temp_c': hour['temp_c'],
                 'feelslike_c': hour['feelslike_c'],
                 'will_it_rain': hour['will_it_rain'],
                 'chance_of_rain': hour['chance_of_rain'],
-                'precip_mm': hour['precip_mm'],
-                'condition': hour['condition']['text']
+                'precip_mm': hour['precip_mm']
             })
 
-    html_weather = _parse_json_weather(hourly_data)
+    html_weather = _get_greeting(hourly_data)
+    html_weather += _parse_json_weather(hourly_data)
 
     return html_weather
 
 
 def _parse_json_weather(hourly_data: List) -> str:
     html_table = """
-    <table>
+    <table style="border-collapse: collapse; width: 100%;">
         <thead>
-            <tr>
-                <th>Time</th>
-                <th>Temperature (°C)</th>
-                <th>Feels Like (°C)</th>
-                <th>Chance of Rain</th>
-                <th>Precipitation (mm)</th>
-                <th>Condition</th>
+            <tr style="border: 1px solid #ddd; background-color: #f2f2f2;">
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Uhrzeit</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Temp (°C)</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Gefühlt (°C)</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: right;">Regen</th>
+                <th style="border: 1px solid #ddd; padding: 8px; text-align: right;">Niederschlag (mm)</th>
             </tr>
         </thead>
         <tbody>
@@ -64,20 +64,45 @@ def _parse_json_weather(hourly_data: List) -> str:
 
     for entry in hourly_data:
         row_class = 'rain' if entry['will_it_rain'] else 'no-rain'
+        time_str = entry['time'].split(' ')[1][:5]
 
         html_table += f"""
-                <tr class="{row_class}">
-                    <td>{entry['time']}</td>
-                    <td>{entry['temp_c']}</td>
-                    <td>{entry['feelslike_c']}</td>
-                    <td>{entry['chance_of_rain']}%</td>
-                    <td>{entry['precip_mm']}</td>
-                    <td>{entry['condition'].strip()}</td>
-                </tr>
-        """
+                    <tr class="{row_class}" style="border: 1px solid #ddd;">
+                        <td style="border: 1px solid #ddd; padding: 8px;">
+                            {time_str}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">
+                            {entry['temp_c']}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px;">
+                            {entry['feelslike_c']}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                            {entry['chance_of_rain']}%</td>
+                        <td style="border: 1px solid #ddd; padding: 8px; text-align: right;">
+                            {entry['precip_mm']}</td>
+                    </tr>
+                """
 
     html_table += """
             </tbody>
         </table>
+        <br><br>
     """
     return html_table
+
+
+def _get_greeting(hourly_data: List) -> str:
+    max_temp = "N/A"
+    max_felt_temp = "N/A"
+    avg_precip_mm = "N/A"
+
+    if hourly_data:
+        max_temp = max(hour['temp_c'] for hour in hourly_data)
+        max_felt_temp = max(hour['feelslike_c'] for hour in hourly_data)
+        avg_precip_mm = sum(hour['precip_mm'] for hour in hourly_data) / len(hourly_data)
+
+    greetings = f"""
+        <p>Guten Morgen! 🥱</p>
+        <p>Heute wird es bis zu {max_temp}°C geben! Gefühlt ca. {max_felt_temp}°C 🌡️.<p>
+        <p>Ein durchschnittlicher Niederschlag von {avg_precip_mm} 🌧️</p>
+        <br>
+        """
+    return greetings

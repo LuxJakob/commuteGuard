@@ -60,14 +60,16 @@ def create_message_body_morning() -> str:
 
     message_body += fetch_weather()
 
-    message_body += fetch_traffic(8000191, 'Stuttgart Hbf', '10', '1032')
+    # Karlsruhe Hauptbahnhof IBNR - 8000191
+    message_body += fetch_traffic(8000191, 'Stuttgart Hbf', '06', '0632')
     return message_body
 
 
 def create_message_body_evening() -> str:
     message_body = ''
 
-    message_body += fetch_traffic(8000191, 'Stuttgart Hbf', '16', '1659')
+    # Stuttgart Hauptbahnhof IBNR - 8000096
+    message_body += fetch_traffic(8000096, 'Karlsruhe Hbf', '16', '1658')
     return message_body
 
 
@@ -82,7 +84,7 @@ def footer() -> str:
             <table>
               <tr>
                 <td>
-                    <p style="font-size: 14px">Powered by: </p>
+                    <p>Powered by: </p>
                 </td>
                 <td width="20"></td>
                 <td>
@@ -90,7 +92,7 @@ def footer() -> str:
                     <img src='https://cdn.weatherapi.com/v4/images/weatherapi_logo.png' alt="Weather data by WeatherAPI.com" border="0">
                   </a>
                 </td>
-                <td width="60"></td>
+                <td width="15"></td>
                 <td>
                   <a href="https://www.bahn.de/" 
                     title="Mit den APIs der Deutschen Bahn neue Lösungen für die Mobilität von morgen entwickeln!">

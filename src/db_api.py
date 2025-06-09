@@ -27,10 +27,12 @@ def fetch_traffic(start: int, destination: str, time_hour: str, departure_time: 
             if destination in route:
                 matching_trains.append(s)
 
-    if matching_trains:
-        return _parse_matching_trains(matching_trains, destination, departure_time)
+    formatted_time = f'{departure_time[:2]}:{departure_time[2:]}'
 
-    return f'No trains found to {destination} at {departure_time}'
+    if matching_trains:
+        return _parse_matching_trains(matching_trains, destination, formatted_time)
+
+    return f'No trains found to {destination} at {formatted_time}'
 
 
 def _build_request_url(start: int, current_date: str, time_hour: str) -> str:
@@ -51,9 +53,9 @@ def _get_request_headers() -> dict:
 
     return headers
 
-def _parse_matching_trains(matching_trains: List, destination: str, departure_time: str) -> str:
-    result = [f'Found {len(matching_trains)} train(s) to {destination} at {departure_time}:']
-    for i, train in enumerate(matching_trains, 1):
+def _parse_matching_trains(matching_trains: List, destination: str, formatted_time: str) -> str:
+    result = [f"""<p>Dein Zug nach {destination}, um {formatted_time} Uhr:</p>"""]
+    for train in matching_trains:
         tl = train.find('tl')
         dp = train.find('dp')
 
@@ -63,9 +65,9 @@ def _parse_matching_trains(matching_trains: List, destination: str, departure_ti
         route = dp.get('ppth', '').replace('|', ' → ')
 
         result.extend([
-            f"\nTrain {i}:",
-            f"Type/Number: {train_type} {train_number}",
-            f"Platform: {platform}",
-            f"Route: {route}"
+            """<p>\nTrain:</p>""",
+            f"""<p>Type/Number: {train_type} {train_number}</p>""",
+            f"""<p>Platform: {platform}</p>""",
+            f"""<p>Route: {route}</p>"""
         ])
     return '\n'.join(result)

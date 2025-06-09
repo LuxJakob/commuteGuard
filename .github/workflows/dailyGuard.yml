@@ -7,7 +7,6 @@ on:
     # 16:10 GMT+2 (14:10 UTC)
     - cron: '10 16 * * 1-5'
   workflow_dispatch:
-  push:
 
 jobs:
   guarding_the_commute:
