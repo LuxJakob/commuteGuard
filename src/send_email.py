@@ -86,17 +86,17 @@ def footer() -> str:
                 <td>
                     <p>Powered by: </p>
                 </td>
-                <td width="20"></td>
+                <td width="10"></td>
                 <td>
                   <a href="https://www.weatherapi.com/" title="Free Weather API">
                     <img src='https://cdn.weatherapi.com/v4/images/weatherapi_logo.png' alt="Weather data by WeatherAPI.com" border="0">
                   </a>
                 </td>
-                <td width="15"></td>
+                <td width="10"></td>
                 <td>
                   <a href="https://www.bahn.de/" 
                     title="Mit den APIs der Deutschen Bahn neue Lösungen für die Mobilität von morgen entwickeln!">
-                    <img src="cid:db_logo" border="0" style="width:50%; height:auto;"
+                    <img src="cid:db_logo" border="0" style="width:60%; height:auto;"
                     alt="Data by https://developers.deutschebahn.com/" border="0">
                   </a>
                 </td>
