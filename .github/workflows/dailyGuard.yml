@@ -7,6 +7,7 @@ on:
     # 16:10 GMT+2 (14:10 UTC)
     - cron: '10 16 * * 1-5'
   workflow_dispatch:
+  push:
 
 jobs:
   guarding_the_commute:
@@ -32,6 +33,8 @@ jobs:
         API_TOKEN_WEATHER: ${{ secrets.API_TOKEN_WEATHER }}
         MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
         MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+        DB_CLIENT_ID: ${{ secrets.DB_CLIENT_ID }}
+        DB_CLIENT_API_KEY: ${{ secrets.DB_CLIENT_API_KEY }}
       run: |
         export PYTHONPATH=$PYTHONPATH:$(pwd)/src
         python3 src/main.py
