@@ -80,12 +80,4 @@ def _parse_json_weather(hourly_data: List) -> str:
             </tbody>
         </table>
     """
-
-    # link back to https://www.weatherapi.com/
-    html_table += """
-    <br><a href="https://www.weatherapi.com/" title="Free Weather API">
-    <img src='https://cdn.weatherapi.com/v4/images/weatherapi_logo.png' alt="Weather data by WeatherAPI.com" border="0">
-    </a><br><br><br>
-    """
-
     return html_table

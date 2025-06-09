@@ -4,6 +4,7 @@ import ssl
 from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
 
 from src.weather_api import fetch_weather
 from src.db_api import fetch_traffic
@@ -32,6 +33,11 @@ def send_email(timestamp: datetime) -> None:
     email_message['From'] = username
     email_message['To'] = username
     email_message['Subject'] = subject
+
+    with open('images/DB_logo_red_filled_200px_rgb.png', 'rb') as img_file:
+        img = MIMEImage(img_file.read())
+        img.add_header('Content-ID', '<db_logo>')
+        email_message.attach(img)
 
     email_message.attach(MIMEText(message_body, 'html'))
 
@@ -66,8 +72,39 @@ def create_message_body_evening() -> str:
 
 
 def footer() -> str:
-    return '''<br><br>
+    motivation = '''<br><br>
         <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: left; font-size: 18px; 
         color: #333; padding: 20px; border-radius: 8px;">
             <p>Do it for her! ❤️</p>
-        </div>'''
+        </div><br><br>'''
+
+    linking_back = """
+            <table>
+              <tr>
+                <td>
+                    <p style="font-size: 14px">Powered by: </p>
+                </td>
+                <td width="20"></td>
+                <td>
+                  <a href="https://www.weatherapi.com/" title="Free Weather API">
+                    <img src='https://cdn.weatherapi.com/v4/images/weatherapi_logo.png' alt="Weather data by WeatherAPI.com" border="0">
+                  </a>
+                </td>
+                <td width="60"></td>
+                <td>
+                  <a href="https://www.bahn.de/" 
+                    title="Mit den APIs der Deutschen Bahn neue Lösungen für die Mobilität von morgen entwickeln!">
+                    <img src="cid:db_logo" border="0" style="width:50%; height:auto;"
+                    alt="Data by https://developers.deutschebahn.com/" border="0">
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="5">
+                  <br><br><br>
+                </td>
+              </tr>
+            </table>
+        """
+
+    return motivation + linking_back

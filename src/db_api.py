@@ -9,15 +9,12 @@ import requests
 def fetch_traffic(start: int, destination: str, time_hour: str, departure_time: str) -> str:
     # fetch data from api
     current_date = datetime.now().strftime('%y%m%d')
-    url = _build_request_url(start, current_date, time_hour)
-    print(url)
     response = requests.get(
         _build_request_url(start, current_date, time_hour),
         headers=_get_request_headers()
     )
 
     # parse response
-    print(response.text)
     root = ET.fromstring(response.text)
 
     departure_date_time = f'{current_date}{departure_time}'
