@@ -65,7 +65,6 @@ def _parse_matching_trains(matching_trains: List, destination: str, formatted_ti
         route = dp.get('ppth', '').replace('|', ' → ')
 
         result.extend([
-            """<p>\nTrain:</p>""",
             f"""<p>Type/Number: {train_type} {train_number}</p>""",
             f"""<p>Platform: {platform}</p>""",
             f"""<p>Route: {route}</p>"""

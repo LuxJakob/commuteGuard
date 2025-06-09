@@ -2,12 +2,12 @@ import os
 import smtplib
 import ssl
 from datetime import datetime
+from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from email.mime.image import MIMEImage
 
-from src.weather_api import fetch_weather
 from src.db_api import fetch_traffic
+from src.weather_api import fetch_weather
 
 
 def send_email(timestamp: datetime) -> None:
@@ -86,13 +86,13 @@ def footer() -> str:
                 <td>
                     <p>Powered by: </p>
                 </td>
-                <td width="10"></td>
+                <td width="15"></td>
                 <td>
                   <a href="https://www.weatherapi.com/" title="Free Weather API">
                     <img src='https://cdn.weatherapi.com/v4/images/weatherapi_logo.png' alt="Weather data by WeatherAPI.com" border="0">
                   </a>
                 </td>
-                <td width="10"></td>
+                <td width="15"></td>
                 <td>
                   <a href="https://www.bahn.de/" 
                     title="Mit den APIs der Deutschen Bahn neue Lösungen für die Mobilität von morgen entwickeln!">

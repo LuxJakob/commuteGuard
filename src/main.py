@@ -1,4 +1,5 @@
-from datetime import datetime, time
+from datetime import datetime
+# from datetime import time
 
 from src.send_email import send_email
 
