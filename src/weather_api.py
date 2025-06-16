@@ -92,17 +92,17 @@ def _parse_json_weather(hourly_data: List) -> str:
 def _get_greeting(hourly_data: List) -> str:
     max_temp = "N/A"
     max_felt_temp = "N/A"
-    avg_precip_mm = "N/A"
+    sum_precip_mm = "N/A"
 
     if hourly_data:
         max_temp = max(hour['temp_c'] for hour in hourly_data)
         max_felt_temp = max(hour['feelslike_c'] for hour in hourly_data)
-        avg_precip_mm = sum(hour['precip_mm'] for hour in hourly_data) / len(hourly_data)
+        sum_precip_mm = sum(hour['precip_mm'] for hour in hourly_data)
 
     greetings = f"""
         <p>Guten Morgen! 🥱</p>
         <p>Heute wird es bis zu {max_temp}°C geben! Gefühlt ca. {max_felt_temp}°C 🌡️.<p>
-        <p>Ein durchschnittlicher Niederschlag von {avg_precip_mm} 🌧️</p>
+        <p>Ein gesamter Niederschlag von {sum_precip_mm} 🌧️</p>
         <br>
         """
     return greetings
